@@ -1,0 +1,25 @@
+{
+  "overview": "MediaFolio is a media portfolio platform for photographers, videographers, and audio creators. Upload and showcase your work in beautiful public portfolios, connect with other creators through likes, comments, and follows, and discover inspiring projects. Features a clean black-and-white design, batch multi-file uploads, and social interactions.",
+  "features": [
+    "Public landing page with About Us and Contact Us sections",
+    "Black and white theme throughout",
+    "Internet Identity login and user profiles",
+    "Project creation and management",
+    "Batch multi-file photo, video, and audio uploads",
+    "Comments on projects",
+    "Likes on projects with live counts",
+    "Follow/unfollow other creators with follower counts",
+    "Public shareable portfolio pages per user"
+  ],
+  "category": "portfolio",
+  "tags": [
+    "portfolio",
+    "media",
+    "photography",
+    "video",
+    "audio",
+    "social",
+    "creator"
+  ],
+  "last_updated": "2026-05-04T10:26:55.206Z"
+}

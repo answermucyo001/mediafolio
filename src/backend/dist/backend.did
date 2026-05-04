@@ -1,0 +1,86 @@
+type _ImmutableObjectStorageRefillResult = 
+ record {
+   success: opt bool;
+   topped_up_amount: opt nat;
+ };
+type _ImmutableObjectStorageRefillInformation = record {
+                                                  proposed_top_up_amount:
+                                                   opt nat;};
+type _ImmutableObjectStorageCreateCertificateResult = 
+ record {
+   blob_hash: text;
+   method: text;
+ };
+type UserRole = 
+ variant {
+   admin;
+   guest;
+   user;
+ };
+type UserProfile = 
+ record {
+   avatar: opt ExternalBlob;
+   name: text;
+ };
+type ProjectView = 
+ record {
+   createdAt: int;
+   description: text;
+   id: ProjectId;
+   owner: text;
+   title: text;
+   updatedAt: int;
+ };
+type ProjectId = nat;
+type PortfolioView = 
+ record {
+   media: vec MediaItemView;
+   owner: text;
+   profile: opt UserProfile;
+   projects: vec ProjectView;
+ };
+type MediaType = 
+ variant {
+   audio;
+   photo;
+   video;
+ };
+type MediaItemView = 
+ record {
+   "blob": ExternalBlob;
+   caption: text;
+   id: MediaId;
+   mediaType: MediaType;
+   name: text;
+   projectId: ProjectId;
+   uploadedAt: int;
+ };
+type MediaId = nat;
+type ExternalBlob = blob;
+service : {
+  _immutableObjectStorageBlobsAreLive: (hashes: vec blob) -> (vec bool) query;
+  _immutableObjectStorageBlobsToDelete: () -> (vec blob) query;
+  _immutableObjectStorageConfirmBlobDeletion: (blobs: vec blob) -> ();
+  _immutableObjectStorageCreateCertificate: (blobHash: text) ->
+   (_ImmutableObjectStorageCreateCertificateResult);
+  _immutableObjectStorageRefillCashier: (refillInformation:
+   opt _ImmutableObjectStorageRefillInformation) ->
+   (_ImmutableObjectStorageRefillResult);
+  _immutableObjectStorageUpdateGatewayPrincipals: () -> ();
+  _initializeAccessControl: () -> ();
+  addMedia: (projectId: ProjectId, name: text, mediaType: MediaType, 
+   "blob": ExternalBlob, caption: text) -> (MediaItemView);
+  assignCallerUserRole: (user: principal, role: UserRole) -> ();
+  createProject: (title: text, description: text) -> (ProjectView);
+  deleteMedia: (mediaId: MediaId) -> (bool);
+  deleteProject: (id: ProjectId) -> (bool);
+  getCallerUserProfile: () -> (opt UserProfile) query;
+  getCallerUserRole: () -> (UserRole) query;
+  getPortfolio: (owner: principal) -> (PortfolioView) query;
+  getProject: (id: ProjectId) -> (opt ProjectView) query;
+  isCallerAdmin: () -> (bool) query;
+  listMyProjects: () -> (vec ProjectView) query;
+  listProjectMedia: (projectId: ProjectId) -> (vec MediaItemView) query;
+  saveCallerUserProfile: (profile: UserProfile) -> ();
+  updateProject: (id: ProjectId, title: text, description: text) -> (bool);
+}
